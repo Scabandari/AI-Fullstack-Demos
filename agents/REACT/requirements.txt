@@ -1,0 +1,34 @@
+# Web framework & server
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+
+# Pydantic (v2)
+pydantic>=2.8.0
+pydantic-settings>=2.4.0
+
+# LangChain ecosystem (compatible with latest 1.1.x releases)
+langchain>=0.3.4,<1.2.0  # Pin upper to avoid breaking changes if needed
+langchain-core>=0.3.4
+langchain-community>=0.3.2
+langchain-groq>=0.2.0
+langchain-ollama>=0.2.1
+langchain-mcp-adapters>=0.1.14  # Fixed: Latest available version
+langchainhub>=0.1.14
+
+# Jupyter – everything you need for .ipynb notebooks and interactive development
+jupyterlab>=4.2.0
+notebook>=7.2.0
+ipykernel>=6.29.0
+
+# Debugging inside notebooks and VS Code
+debugpy>=1.8.0
+
+# Nice-to-have utilities when working in notebooks
+ipython>=8.26.0
+matplotlib>=3.9.0      # for plots inside notebooks
+pandas>=2.2.0
+python-dotenv>=1.0.0   # if you keep API keys in .env
+
+# Optional but commonly used with FastAPI forms/file uploads
+python-multipart>=0.0.9
+httpx>=0.27.0
