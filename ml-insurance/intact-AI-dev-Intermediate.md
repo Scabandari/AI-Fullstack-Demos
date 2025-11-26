@@ -17,6 +17,7 @@ Strong communication, time management and work organization skills
 If you don’t have experience in the AI field, a strong motivation to learn this new and exciting field
 Bilinguism (FR-EN) - For candidates located in Quebec, bilingualism is required considering the necessity to interact on a regular basis with English-speaking colleagues across the country.
 No Canadian work experience required however must be eligible to work in Canada.
+
 Some nice-to-haves :
 Highly desired : Frontend experience with React framework, Typescript, async handling & state management tool
 Experience with machine learning and scientific computing libraries such as scikit-learn, NumPy, SciPy, Tensorflow, etc.

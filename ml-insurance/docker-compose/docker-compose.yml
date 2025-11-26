@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  insurance-api:
+    build:
+      context: ..
+      dockerfile: app/dockerfile
+    container_name: insurance-api
+    ports:
+      - '8007:8007'
+      - '5678:5678'
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Mount app code for hot-reload
+      - ../app:/app/app
+      # Mount ml module for hot-reload
+      - ../ml:/app/ml
+      # Mount model files (optional - if you want hot-reload for models)
+      - ../data/models:/app/data/models:ro
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'python',
+          '-c',
+          "import requests; requests.get('http://localhost:8007/health')",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 2
+      start_period: 40s
+    restart: unless-stopped
+    command: python -m debugpy --listen 0.0.0.0:5678 -m uvicorn app.main:app --host 0.0.0.0 --port 8007 --reload
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: ../client
+      dockerfile: Dockerfile
+    container_name: insurance-client
+    ports:
+      - '5173:5173'
+    environment:
+      - VITE_API_URL=http://localhost:8007
+    volumes:
+      # Mount source code for hot-reload
+      - ../client:/app
+      # Exclude node_modules from mount (use container's version)
+      - /app/node_modules
+    depends_on:
+      - insurance-api
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
