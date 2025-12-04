@@ -1,0 +1,42 @@
+# pyproject.toml
+[project]
+name = "agents"
+version = "0.1.0"
+description = "AI Fullstack Demos – LangChain + FastMCP + FastAPI"
+requires-python = ">=3.11,<3.13"        # fixes the langchain-community 0.4.1 bug
+dependencies = [
+    "fastapi==0.122.0",
+    "uvicorn[standard]==0.38.0",
+    "python-multipart==0.0.20",
+    "pydantic==2.12.5",
+    "pydantic-settings==2.12.0",
+    "langchain>=1.1.0",
+    "langchain-core>=1.1.0",
+    "langchain-community==0.4.1",
+    "langchain-groq==1.1.0",
+    "langchain-ollama==1.0.0",
+    "langchain-openai",
+    "langchain-mcp-adapters==0.1.14",
+    "langchain-text-splitters==1.0.0",
+    "langchainhub==0.1.21",
+    "langgraph==1.0.4",
+    "fastmcp==2.13.1",          # no [all] needed anymore in 2.13+
+    "groq==0.36.0",
+    "ollama==0.6.1",
+    "jupyterlab==4.5.0",
+    "ipykernel==7.1.0",
+    "debugpy==1.8.17",
+    "python-dotenv==1.2.1",
+    "httpx==0.28.1",
+    "pandas==2.3.3",
+    "matplotlib==3.10.7",
+    "notebook>=7.5.0",
+]
+
+# Optional: modern dev dependencies
+[dependency-groups]
+dev = [
+    "ruff>=0.6.0",
+    "mypy>=1.11.0",
+    "ipython>=9.7.0",
+]
