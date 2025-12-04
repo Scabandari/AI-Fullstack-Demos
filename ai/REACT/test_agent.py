@@ -85,7 +85,7 @@ async def main():
     start_time = time.perf_counter()
     # get_detailed_stream(agent, "What's 3 + 4, then multiply by 3?")
     result = agent.invoke(
-        {"messages": [{"role": "user", "content": "What's 8 + 4, then multiply by 2?"}]}
+        {"messages": [{"role": "user", "content": "What's (8 + 4) + 2 * 6"}]}
     )
     print(f"Final Answer: {result['messages'][-1].content}\n")
     end_time = time.perf_counter()
