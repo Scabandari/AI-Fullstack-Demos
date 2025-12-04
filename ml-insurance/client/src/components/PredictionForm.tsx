@@ -91,45 +91,33 @@ const secondaryButtonStyles = css(buttonStyles, {
   },
 });
 
-const resultsStyles = css({
+const resultsContainerStyles = css({
   boxSizing: 'border-box',
+  minHeight: '200px',
   color: 'black',
   border: '1px solid blue',
-  display: 'grid',
-  width: '100%',
-  minHeight: '200px',
-  // gridTemplateRows: '50px 30px 30px 30px', // 4 rows
-  gridTemplateRows: '55px 1fr', // 4 rows
-  gridTemplateColumns: '1fr 50px 1fr', // 3 columns: content | gap | content
-  gridTemplateAreas: `
-    "latestHeader . historyHeader"
-    "latestContent . historyList"
-  `,
-  gap: '0',
-  'h3:first-of-type': {
-    backgroundColor: 'green',
-    gridArea: 'latestHeader',
-    textAlign: 'left',
-  },
-  // 'h3:last-of-type': {
-  '#historyHeader': {
-    gridArea: 'historyHeader',
-    backgroundColor: 'yellow',
-    textAlign: 'left',
-  },
-  '#latestContent': {
-    gridArea: 'latestContent',
-    backgroundColor: 'blue',
+  display: 'flex',
+  placeContent: 'center',
+  alignItems: 'start',
+});
 
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr',
-    alignItems: 'center',
-    justifyItems: 'center',
+const resultsItemsStyles = css({
+  width: '100%',
+  maxWidth: '800px',
+  border: '3px solid pink',
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: '1rem',
+  '@media (max-width: 600px)': {
+    gridTemplateColumns: '1fr',
   },
-  '#historyList': {
-    gridArea: 'historyList',
-    backgroundColor: 'red',
-  },
+});
+
+const resultsItemStyles = css({
+  border: '4px solid red',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
 });
 
 const PredictionForm = () => {
@@ -211,11 +199,71 @@ const PredictionForm = () => {
         </button>
       </div>
       <Divider css={css({ margin: '1.5rem 0' })} />
-      <div css={resultsStyles}>
-        <h3 id='latestHeader'>Predicted Risk</h3>
-        <h3 id='historyHeader'>History</h3>
-        <div id='latestContent'>
-          {/* <div>Risk Level</div>
+      <div css={resultsContainerStyles}>
+        <div css={resultsItemsStyles}>
+          <div css={resultsItemStyles}>
+            <h3 id='latestHeader'>Predicted Risk</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Risk Level</th>
+                  <th>Claim Probability</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    {predictions[0]
+                      ? predictions[0].risk_level.toUpperCase()
+                      : 'N/A'}
+                  </td>
+                  <td>
+                    {predictions[0]
+                      ? (predictions[0].claim_probability * 100).toFixed(2) +
+                        '%'
+                      : 'N/A'}
+                  </td>
+                  <td>
+                    {predictions[0] ? (
+                      <>
+                        {
+                          new Date(predictions[0].timestamp)
+                            .toLocaleString()
+                            .split(',')[0]
+                        }
+                        <br />
+                        {
+                          new Date(predictions[0].timestamp)
+                            .toLocaleString()
+                            .split(',')[1]
+                        }
+                      </>
+                    ) : (
+                      'N/A'
+                    )}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div css={resultsItemStyles}>
+            <h3 id='historyHeader'>History</h3>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+};
+
+export default PredictionForm;
+
+{
+  /* <div id='latestContent'> */
+}
+{
+  /* <div>Risk Level</div>
           <div>Claim Probability</div>
           <div>Timestamp</div>
           {predictions[0] ? (
@@ -230,8 +278,10 @@ const PredictionForm = () => {
               <div>N/A</div>
               <div>N/A</div>
             </>
-          )} */}
-          <table>
+          )} */
+}
+{
+  /* <table>
             <thead>
               <tr>
                 <th>Risk Level</th>
@@ -259,10 +309,14 @@ const PredictionForm = () => {
               </tr>
             </tbody>
           </table>
-        </div>
-        <div id='historyList'></div>
-      </div>
-      {/* {predictions.length > 0 && (
+
+        </div>*/
+}
+{
+  /* </div> */
+}
+{
+  /* {predictions.length > 0 && (
         <div css={resultsStyles}>
           <h3 css={css({ textAlign: 'left', color: '#333' })}>
             Risk Prediction
@@ -298,9 +352,5 @@ const PredictionForm = () => {
             ))}
           </ul>
         </div>
-      )} */}
-    </form>
-  );
-};
-
-export default PredictionForm;
+      )} */
+}
