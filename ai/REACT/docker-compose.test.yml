@@ -1,0 +1,13 @@
+services:
+  test:
+    build:
+      context: ..
+      dockerfile: REACT/Dockerfile.test
+    container_name: pytest-runner
+    environment:
+      # Add any environment variables your tests need
+      - PYTHONPATH=/app
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    # Override the default command if you want to customize test running
+    # command: uv run pytest -v --tb=short --cov=. --cov-report=html:test-results/coverage
