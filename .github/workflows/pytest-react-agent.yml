@@ -30,7 +30,7 @@ jobs:
       - name: Run tests
         working-directory: ./ai/REACT
         run: docker-compose -f docker-compose.test.yml up --abort-on-container-exit
-        env:
-          # Add any environment variables your tests need here
-          # OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          # GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        # env:
+        #   # Add any environment variables your tests need here
+        #   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        #   GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
