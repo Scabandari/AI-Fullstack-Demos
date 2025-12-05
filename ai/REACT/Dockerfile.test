@@ -1,0 +1,21 @@
+# Use Python 3.11 slim image
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
+# Copy dependency files (now in build context)
+COPY uv.lock pyproject.toml ./
+
+# Install dependencies
+RUN uv sync --frozen --no-install-project
+
+# Copy source code and tests
+COPY REACT/react_agent.py ./react_agent.py
+COPY REACT/tests/ ./tests/
+
+# Set the default command to run pytest
+CMD ["uv", "run", "pytest", "-v"]
