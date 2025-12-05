@@ -5,8 +5,19 @@ from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq  # Change this
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
+from langchain.agents.structured_output import ToolStrategy
+from pydantic import BaseModel, Field
 import asyncio
 import os
+
+
+class MathResult(BaseModel):
+    """Final structured result from math computation."""
+
+    # expression: str = Field(..., description="The original math expression")
+    # steps: list[str] = Field(..., description="Step-by-step reasoning")
+    final_answer: float = Field(..., description="Computed numeric result")
+    # explanation: str = Field(..., description="Brief explanation of the result")
 
 
 def get_detailed_stream(agent, query):
@@ -55,7 +66,7 @@ openai_llm = ChatOpenAI(
 # Latency: 0.3927 seconds
 # Latency: 392.74 ms
 groq_llm = ChatGroq(
-    model="llama-3.1-8b-instant",  # Or "llama-3.1-70b-versatile"
+    model="llama-3.3-70b-versatile",  #  "llama-3.1-8b-instant",
     temperature=0,
     timeout=10,
     max_retries=2,
@@ -81,11 +92,20 @@ async def main():
         model=groq_llm,
         tools=[add, multiply],  # Add your tools here
         system_prompt=system_prompt,
+        response_format=ToolStrategy(MathResult),
     )
     start_time = time.perf_counter()
     # get_detailed_stream(agent, "What's 3 + 4, then multiply by 3?")
     result = agent.invoke(
-        {"messages": [{"role": "user", "content": "What's (8 + 4) + 2 * 6"}]}
+        {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "What's (8 + 4) + 2 * 6",
+                    # "content": "The tools you have available are `add` and `multiply`. What's (8 + 4) + 2 * 6",
+                }
+            ]
+        }
     )
     print(f"Final Answer: {result['messages'][-1].content}\n")
     end_time = time.perf_counter()
@@ -94,6 +114,12 @@ async def main():
     print(f"Latency: {latency_seconds:.4f} seconds")
     # or in milliseconds
     print(f"Latency: {latency_seconds * 1000:.2f} ms")
+
+    structured_result = result["structured_response"]
+    # print(f"Expression: {structured_result.expression}")
+    print(f"Final Answer: {structured_result.final_answer}")
+    # print(f"Explanation: {structured_result.explanation}")
+    # print(f"Steps: {structured_result.steps}")
 
 
 if __name__ == "__main__":
